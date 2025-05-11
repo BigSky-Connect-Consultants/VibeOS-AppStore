@@ -19,7 +19,7 @@
         "website": "https://example.com"
     },
     "container": {
-        "image": "ghcr.io/bitwarden/self-host:2024.6.0",
+        "image": "ghcr.io/bitwarden/self-host:latest",
         "shell": "bash",
         "privileged": false,
         "network_model": "bridge",
@@ -67,7 +67,13 @@
             {
                 "container": "DATABASE_URL",
                 "description": {
-                "en_us": "Path to SQLite database file"
+                "en_us": "Path to MariaDB database file"
+                }
+            },
+            {
+                "container": "DB_PASSWORD",
+                "description": {
+                "en_us": "Path to MariaDB database file"
                 }
             }
         ],
@@ -79,15 +85,7 @@
                 "allocation": "preferred",
                 "configurable": "advanced",
                 "description": "WebUI HTTP Port"
-            },
-            {
-                "container": "443",
-                "host": "8443",
-                "type": "tcp",
-                "allocation": "preferred",
-                "configurable": "advanced",
-                "description": "WebUI HTTPS Port"
-             }
+            }
         ],
         "volumes": [
             {
