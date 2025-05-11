@@ -2,20 +2,20 @@
     "version": "2.0",
     "title": "Bitwarden",
     "name": "bitwarden",
-    "icon": "https://raw.githubusercontent.com/enuno/VibeOS-AppStore/refs/heads/main/Apps/Bitwarden/icon.png",
+    "icon": "https://github.com/enuno/VibeOS-AppStore/blob/main/Apps/Bitwarden/icon.png?raw=true",
     "tagline": "A self-hosted Bitwarden server",
     "overview": "Bitwarden - a password manager for securely storing, managing, and sharing sensitive online data such as passwords, passkeys, and credit cards.",
     "screenshots": [
-        "https://raw.githubusercontent.com/enuno/VibeOS-AppStore/refs/heads/main/Apps/Bitwarden/screenshot-1.png"
-        "https://raw.githubusercontent.com/enuno/VibeOS-AppStore/refs/heads/main/Apps/Bitwarden/screenshot-2.png"
-        "https://raw.githubusercontent.com/enuno/VibeOS-AppStore/refs/heads/main/Apps/Bitwarden/screenshot-3.png"
+        "https://github.com/enuno/VibeOS-AppStore/blob/main/Apps/Bitwarden/screenshot-1.png?raw=true"
+        "https://github.com/enuno/VibeOS-AppStore/blob/main/Apps/Bitwarden/screenshot-2.png?raw=true"
+        "https://github.com/enuno/VibeOS-AppStore/blob/main/Apps/Bitwarden/screenshot-3.png?raw=true"
     ],
      "category": [
          "Security",
          "Cloud"
     ],
     "developer": {
-        "name": "Your Organization",
+        "name": "BigSky Connect Consultants",
         "website": "https://example.com"
     },
     "container": {
