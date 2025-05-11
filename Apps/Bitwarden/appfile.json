@@ -1,0 +1,134 @@
+{
+    "version": "2.0",
+    "title": "Bitwarden",
+    "name": "bitwarden",
+    "icon": "https://raw.githubusercontent.com/enuno/VibeOS-AppStore/refs/heads/main/Apps/Bitwarden/icon.png",
+    "tagline": "A self-hosted Bitwarden server",
+    "overview": "Bitwarden - a password manager for securely storing, managing, and sharing sensitive online data such as passwords, passkeys, and credit cards.",
+    "screenshots": [
+        "https://raw.githubusercontent.com/enuno/VibeOS-AppStore/refs/heads/main/Apps/Bitwarden/screenshot-1.png"
+        "https://raw.githubusercontent.com/enuno/VibeOS-AppStore/refs/heads/main/Apps/Bitwarden/screenshot-2.png"
+        "https://raw.githubusercontent.com/enuno/VibeOS-AppStore/refs/heads/main/Apps/Bitwarden/screenshot-3.png"
+    ],
+     "category": [
+         "Security",
+         "Cloud"
+    ],
+    "developer": {
+        "name": "Your Organization",
+        "website": "https://example.com"
+    },
+    "container": {
+        "image": "ghcr.io/bitwarden/self-host:2024.6.0",
+        "shell": "bash",
+        "privileged": false,
+        "network_model": "bridge",
+        "web_ui": {
+            "http": "80",
+            "path": "/"
+        },
+        "envs": [
+            {
+                "container": "BW_INSTALLATION_ID",
+                "description": {
+                "en_us": "Bitwarden Installation ID generated from https://bitwarden.com/host/"
+                }
+            },
+            {
+                "container": "BW_INSTALLATION_KEY",
+                "description": {
+                "en_us": "Bitwarden Installation Key generated from https://bitwarden.com/host/"
+                }
+            },
+            {
+                "container": "DOMAIN",
+                "description": {
+                "en_us": "Public domain for your application instance"
+                }
+            },
+            {
+                "container": "WEBSOCKET_ENABLED",
+                "description": {
+                "en_us": "Enable WebSocket support for real-time updates"
+                }
+            },
+            {
+                "container": "SIGNUPS_ALLOWED",
+                "description": {
+                "en_us": "Allow new user registrations (true/false)"
+                }
+            },
+            {
+                "container": "ADMIN_TOKEN",
+                "description": {
+                "en_us": "Secret token for administrative access"
+                }
+            },
+            {
+                "container": "DATABASE_URL",
+                "description": {
+                "en_us": "Path to SQLite database file"
+                }
+            }
+        ],
+        "ports": [
+            {
+                "container": "8080",
+                "host": "8080",
+                "type": "tcp",
+                "allocation": "preferred",
+                "configurable": "advanced",
+                "description": "WebUI HTTP Port"
+            },
+            {
+                "container": "443",
+                "host": "8443",
+                "type": "tcp",
+                "allocation": "preferred",
+                "configurable": "advanced",
+                "description": "WebUI HTTPS Port"
+             }
+        ],
+        "volumes": [
+            {
+                "container": "/data",
+                "host": "/DATA/AppData/$AppID/data",
+                "mode": "rw",
+                "allocation": "automatic",
+                "configurable": "advanced",
+                "description": "Application data directory"
+            }
+        ],
+        "devices": [],
+        "constraints": {
+            "min_memory": 512,
+            "min_storage": 2048
+        },
+        "restart_policy": "unless-stopped",
+        "sysctls": [],
+        "cap_add": [],
+        "labels": []
+    },
+    "abilities": {
+        "notification": false,
+        "widgets": false,
+        "authentication": false,
+        "search": false,
+        "upnp": false
+    },
+    "tips": {
+        "before_install":[
+            {
+                "content": "Default Account"
+            },
+            {
+                "content": "Username: ",
+                "value": "admin"
+            },
+            {
+                "content": "Password: ",
+                "value": "admin"
+            }
+        ]
+    },
+}

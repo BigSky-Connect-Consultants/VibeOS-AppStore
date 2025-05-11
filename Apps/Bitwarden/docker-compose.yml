@@ -1,0 +1,60 @@
+name: bitwarden
+services:
+  app:
+    image: ghcr.io/bitwarden/self-host:2024.6.0
+    container_name: bitwarden-unified
+    restart: unless-stopped
+    env_file:
+      - settings.env
+    depends_on:
+      - db
+    volumes:
+      - type: bind
+        source: /DATA/AppData/bitwarden/config
+        target: /etc/bitwarden
+    ports:
+      - target: 8080
+        published: ${WEBUI_PORT:-8080}
+        protocol: tcp
+
+  db:
+    image: mariadb:11.3
+    container_name: bitwarden-db
+    restart: unless-stopped
+    environment:
+      MARIADB_USER: "bitwarden"
+      MARIADB_PASSWORD: "${DB_PASSWORD}"
+      MARIADB_DATABASE: "bitwarden_vault"
+      MARIADB_RANDOM_ROOT_PASSWORD: "true"
+    volumes:
+      - type: bind
+        source: /DATA/AppData/bitwarden/db
+        target: /var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: app
+  description:
+    en_us: Official Bitwarden password management server with unified deployment architecture
+  tagline:
+    en_us: Enterprise-grade password management solution
+  icon: https://bitwarden.com/assets/images/logo.svg
+  category: Security
+  port_map: ${WEBUI_PORT:-8080}
+  envs:
+    - container: BW_INSTALLATION_ID
+      description:
+        en_us: Unique installation identifier from Bitwarden Host
+    - container: BW_INSTALLATION_KEY
+      description: 
+        en_us: Cryptographic installation key from Bitwarden Host
+    - container: DB_PASSWORD
+      description:
+        en_us: Database credential for MariaDB instance
