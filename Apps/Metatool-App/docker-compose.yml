@@ -1,0 +1,82 @@
+name: vibeos-metatool
+services:
+  app:
+    image: ghcr.io/bigsky-connect-consultants/vibeos-metatool-app:1.2.3
+    container_name: metatool-web
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgres://metauser:${DB_PASSWORD}@db:5432/metatool
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - type: bind
+        source: /DATA/AppData/metatool/appdata
+        target: /app/storage
+    ports:
+      - target: 3000
+        published: ${WEBUI_PORT:-3000}
+        protocol: tcp
+    networks:
+      - metatool-net
+
+  db:
+    image: postgres:15-alpine
+    container_name: metatool-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: metauser
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: metatool
+    volumes:
+      - type: bind
+        source: /DATA/AppData/metatool/db
+        target: /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U metauser -d metatool"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - metatool-net
+
+networks:
+  metatool-net:
+    driver: bridge
+
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+    - armv7
+  main: app
+  description:
+    en_us: "MetaTool: Unified interface for managing distributed AI workflows"
+  tagline:
+    en_us: "Orchestration platform for MCP-compatible AI systems"
+  developer: "BigSky Connect Consultants"
+  author: "VibeOS AppStore Team"
+  icon: https://raw.githubusercontent.com/BigSky-Connect-Consultants/VibeOS-AppStore/main/Apps/MetaTool/icon.png
+  category: "AI/ML"
+  port_map: ${WEBUI_PORT:-3000}
+  envs:
+    - container: DB_PASSWORD
+      description:
+        en_us: "PostgreSQL database password"
+    - container: API_KEY
+      description: 
+        en_us: "Application API secret key"
+  ports:
+    - container: "3000"
+      description:
+        en_us: "Web interface port"
+  volumes:
+    - container: "/app/storage"
+      description:
+        en_us: "Application configuration storage"
+    - container: "/var/lib/postgresql/data" 
+      description:
+        en_us: "Database storage directory"

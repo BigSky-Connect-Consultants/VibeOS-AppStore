@@ -1,0 +1,85 @@
+{
+  "version": "2.0",
+  "title": "VibeOS AppStore",
+  "name": "vibeos-appstore",
+  "icon": "https://raw.githubusercontent.com/BigSky-Connect-Consultants/VibeOS-AppStore/main/icon.png",
+  "tagline": {
+    "en_us": "Community-maintained application repository for VibeOS"
+  },
+  "overview": {
+    "en_us": "Curated collection of Dockerized applications optimized for VibeOS deployments with CasaOS compatibility layer support."
+  },
+  "category": [
+    "Utilities",
+    "System"
+  ],
+  "developer": {
+    "name": "VibeOS Community Contributors",
+    "website": "https://github.com/BigSky-Connect-Consultants/VibeOS-AppStore"
+  },
+  "container": {
+    "image": "ghcr.io/bigsky-connect-consultants/vibeos-metatool-app:latest",
+    "shell": "bash",
+    "privileged": false,
+    "network_model": "bridge",
+    "web_ui": {
+      "http": "8080",
+      "path": "/"
+    },
+    "envs": [
+      {
+        "container": "APPSTORE_REPO_URL",
+        "description": {
+          "en_us": "Git repository URL for appstore definitions"
+        }
+      },
+      {
+        "container": "UPDATE_INTERVAL",
+        "description": {
+          "en_us": "Automatic update check interval (minutes)"
+        }
+      }
+    ],
+    "ports": [
+      {
+        "container": "3000",
+        "host": "${WEBUI_PORT:-8080}",
+        "type": "tcp",
+        "description": "Web interface port"
+      }
+    ],
+    "volumes": [
+      {
+        "container": "/app/data",
+        "host": "/DATA/AppData/$AppID/data",
+        "mode": "rw",
+        "description": "Application configuration storage"
+      },
+      {
+        "container": "/app/repos",
+        "host": "/DATA/AppData/$AppID/repos",
+        "mode": "rw",
+        "description": "Appstore repository storage"
+      }
+    ],
+    "constraints": {
+      "min_memory": 512,
+      "min_storage": 1024
+    }
+  },
+  "x-casaos": {
+    "architectures": [
+      "amd64",
+      "arm64",
+      "arm"
+    ],
+    "main": "app",
+    "description": {
+      "en_us": "Central repository for VibeOS-compatible applications following CasaOS packaging standards"
+    },
+    "author": "BigSky Connect Consultants",
+    "thumbnail": "https://raw.githubusercontent.com/BigSky-Connect-Consultants/VibeOS-AppStore/main/thumbnail.png",
+    "category": "System",
+    "port_map": "${WEBUI_PORT:-8080}"
+  }
+}
