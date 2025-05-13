@@ -23,7 +23,7 @@
     "privileged": false,
     "network_model": "bridge",
     "web_ui": {
-      "http": "8080",
+      "http": "3000",
       "path": "/"
     },
     "envs": [
@@ -43,7 +43,7 @@
     "ports": [
       {
         "container": "3000",
-        "host": "${WEBUI_PORT:-8080}",
+        "host": "${WEBUI_PORT:-3000}",
         "type": "tcp",
         "description": "Web interface port"
       }
@@ -80,6 +80,6 @@
     "author": "BigSky Connect Consultants",
     "thumbnail": "https://raw.githubusercontent.com/BigSky-Connect-Consultants/VibeOS-AppStore/main/thumbnail.png",
     "category": "System",
-    "port_map": "${WEBUI_PORT:-8080}"
+    "port_map": "${WEBUI_PORT:-3000}"
   }
 }
